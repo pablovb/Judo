@@ -3,6 +3,13 @@ package es.liceo.judo.category
 import es.liceo.judo.championship.Championship;
 
 /**
+ * Clase con información sobre una categoría de un campeonato de judo.
+ * 
+ * Una categoría pertenece en exclusiva a un campeonato (no todos los campeonatos
+ * tienen por qué definir las mismas categorías, ni con los mismos criterios).
+ * 
+ * Una categoría tiene una lista de pesos, que se almacenan aquí (límite inferior, 
+ * límite superior).
  * 
  * @author Pablo
  *
@@ -16,6 +23,7 @@ class Category {
 	BigDecimal maxWeight
 	static belongsTo = [championship:Championship]
 	
+	//TODO
     static constraints = {
 		name(blank:false, nullable:false, 
 			inList:["Cadete Sub-17", "Infantil Sub-15", "Alevin Sub-13", "Benjamín", "Benjamín B"])
