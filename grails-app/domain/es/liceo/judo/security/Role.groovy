@@ -1,6 +1,8 @@
 package es.liceo.judo.security
 
-class Role {
+import java.io.Serializable;
+
+class Role implements Serializable {
 
 	String authority
 

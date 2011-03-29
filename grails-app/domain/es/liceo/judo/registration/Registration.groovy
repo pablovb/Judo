@@ -1,5 +1,6 @@
 package es.liceo.judo.registration
 
+import java.io.Serializable;
 import java.util.Date;
 
 import es.liceo.judo.championship.Championship;
@@ -14,7 +15,7 @@ import es.liceo.judo.judoka.JudokaHistorical;
 * @author Pablo
 *
 */
-class Registration {
+class Registration implements Serializable {
 	
 	BigDecimal weight
 	Boolean licenseUpdated

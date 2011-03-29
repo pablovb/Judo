@@ -1,6 +1,8 @@
 package es.liceo.judo.security
 
-class User {
+import java.io.Serializable;
+
+class User implements Serializable {
 
 	String username
 	String password

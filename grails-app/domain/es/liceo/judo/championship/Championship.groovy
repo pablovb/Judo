@@ -1,5 +1,7 @@
 package es.liceo.judo.championship
 
+import java.io.Serializable;
+
 import es.liceo.judo.category.Category;
 import es.liceo.judo.registration.Registration;
 
@@ -13,7 +15,7 @@ import es.liceo.judo.registration.Registration;
  * @author Pablo
  *
  */
-class Championship {
+class Championship implements Serializable {
 	
 	String name
 	Date date
@@ -28,7 +30,10 @@ class Championship {
 		open(blank:false, nullable:false, default:false, validator:{ val, obj ->
 				(!val) || (new Date()?.before(obj.date))
 			})
-		categories()
+		// puede haber campeonato sin categorias creadas
+		categories(validator:{ val, obj ->
+				!(obj.categories?.contains(val))
+			})
 		registrations()
     }
 	

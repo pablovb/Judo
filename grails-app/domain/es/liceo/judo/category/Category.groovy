@@ -1,5 +1,8 @@
 package es.liceo.judo.category
 
+import java.io.Serializable;
+import org.apache.commons.lang.builder.HashCodeBuilder
+
 import es.liceo.judo.championship.Championship;
 
 /**
@@ -14,7 +17,7 @@ import es.liceo.judo.championship.Championship;
  * @author Pablo
  *
  */
-class Category {
+class Category implements Serializable {
 
 	String name
 	String sex
@@ -23,7 +26,7 @@ class Category {
 	BigDecimal maxWeight
 	static belongsTo = [championship:Championship]
 	
-	//TODO validate peso maximo y minimo
+	//TODO validate pesos maximo y minimo
     static constraints = {
 		name(blank:false, nullable:false, 
 			inList:["Cadete Sub-17", "Infantil Sub-15", "Alevin Sub-13", "Benjamín", "Benjamín B"])
@@ -35,16 +38,62 @@ class Category {
 		maxWeight(validator:{ val, obj ->
 				(((val == null && obj.minWeight != null)) || (obj.maxWeight > obj.minWeight))
 		})
-		championship()
+		championship(blank:false, nullable:false, readonly:true, 
+			validator:{ val, obj ->
+				if (obj.id == null) {
+					/*
+					 * si se crea, que el campeonato donde se mete
+					 * no tenga esa misma categoria
+					 */
+					!(obj.championship?.categories?.contains(obj))
+				} else {
+					/*
+					 * si se actualiza, que el campeonato no tenga
+					 * esa categoría, o si la tiene, que sea esa misma
+					 */
+					boolean found = false;
+					boolean sameId = false;
+					obj.championship?.categories?.each {
+						if (it.equals(obj)) {
+							found = true;
+							if (it.id == obj.id) {
+								sameId = true;
+							}
+						}
+					}
+					return !found || sameId;
+				}
+			})
     }
 	
 	static mapping = {
-		sort "bornAgo"
+		sort "championship"
 	}
 	
 	String toString() {
 		return name + " " + sex + 
 			" (" + minWeight + ", " + maxWeight + ")"
+	}
+	
+	boolean equals(other) {
+		if (!(other instanceof Category)) {
+			return false
+		}
+		
+		other.name == name && other.sex == sex &&
+			other.bornAgo == bornAgo && 
+			other.minWeight == minWeight &&
+			other.maxWeight == maxWeight
+	}
+
+	int hashCode() {
+		def builder = new HashCodeBuilder()
+		builder.append(name)
+		builder.append(sex)
+		builder.append(bornAgo)
+		builder.append(minWeight)
+		builder.append(maxWeight)
+		builder.toHashCode()
 	}
 	
 }

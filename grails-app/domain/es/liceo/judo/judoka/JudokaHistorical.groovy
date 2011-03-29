@@ -1,5 +1,7 @@
 package es.liceo.judo.judoka
 
+import java.io.Serializable;
+
 /**
 * Clase con la información sobre un judoka que 
 * varía con el tiempo.
@@ -7,7 +9,7 @@ package es.liceo.judo.judoka
 * @author Pablo
 *
 */
-class JudokaHistorical {
+class JudokaHistorical implements Serializable {
 	
 	Date startDate
 	Date endDate

@@ -1,5 +1,6 @@
 package es.liceo.judo.judoka
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author Pablo
  *
  */
-class Judoka {
+class Judoka implements Serializable {
 	
 	String dni
 	String name
