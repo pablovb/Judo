@@ -23,7 +23,7 @@ class Category {
 	BigDecimal maxWeight
 	static belongsTo = [championship:Championship]
 	
-	//TODO
+	//TODO validate peso maximo y minimo
     static constraints = {
 		name(blank:false, nullable:false, 
 			inList:["Cadete Sub-17", "Infantil Sub-15", "Alevin Sub-13", "Benjamín", "Benjamín B"])
@@ -35,6 +35,7 @@ class Category {
 		maxWeight(validator:{ val, obj ->
 				(((val == null && obj.minWeight != null)) || (obj.maxWeight > obj.minWeight))
 		})
+		championship()
     }
 	
 	static mapping = {

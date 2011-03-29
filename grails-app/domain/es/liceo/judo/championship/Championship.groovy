@@ -1,6 +1,7 @@
 package es.liceo.judo.championship
 
 import es.liceo.judo.category.Category;
+import es.liceo.judo.registration.Registration;
 
 /**
  * Clase con informacion sobre un campeonato de judo.
@@ -17,16 +18,18 @@ class Championship {
 	String name
 	Date date
 	Boolean open
-	static hasMany = [categories:Category]
+	static hasMany = [categories:Category, registrations:Registration]
 
     static constraints = {
-		name(blank:false, nullable:false)
+		name(blank:false, nullable:false, unique:'date')
 		date(blank:false, nullable:false, validator:{ val, obj ->
 				(obj.id != null) || (new Date()?.before(obj.date))
 			})
 		open(blank:false, nullable:false, default:false, validator:{ val, obj ->
 				(!val) || (new Date()?.before(obj.date))
 			})
+		categories()
+		registrations()
     }
 	
 	static mapping = {

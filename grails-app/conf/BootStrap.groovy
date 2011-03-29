@@ -23,6 +23,8 @@ class BootStrap {
 	
 	def createUsersAndRoles = {
 		
+		log.debug("Creando usuarios y roles");
+		
 		// roles
 		def adminRole = Role.findByAuthority('ROLE_ADMIN') ?:
 			new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
