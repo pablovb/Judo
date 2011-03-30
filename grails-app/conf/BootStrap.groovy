@@ -93,7 +93,9 @@ class BootStrap {
 			trofeoLiceo.addToCategories(cadeteMasc)
 		}
 		println "Categorías de " + trofeoLiceo.name + ":"
-		//trofeoLiceo.categories?.each.println()
+		trofeoLiceo.categories?.each {
+			println "\t" + it.toString()
+		}
 
 		trofeoLiceo.save(failOnError: true, flush: true);
 

@@ -73,8 +73,8 @@ log4j = {
     // appender:
     //
     appenders {
-        console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-        rollingFile name: 'fileout', append: true, maxFileSize: 10240, maxBackupIndex: 7, file: 'logs/judo.log'
+		rollingFile name: "fileout", maxFileSize: "10MB", maxBackupIndex: 10, file: "C:\\grails-1.3.7\\workspace\\judo\\logs\\judo.log"
+		console name:"stdout"
     }
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
@@ -94,14 +94,13 @@ log4j = {
     debug  'grails.app'
     
     root = {
-        error 'stdout', 'fileout'
+		error 'stdout', 'fileout'
     }
 }
 
 // **********************************************************************************************
 
-// SECURITY-PLUGIN
-
+// SECURITY-PLUGIN
 // Modified default properties from C:\Users\Pablo\.grails\1.3.7\projects\judo\plugins\spring-security-core-1.1.2\grails-app\conf
 
 // Added by the Spring Security Core plugin:

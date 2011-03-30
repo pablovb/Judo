@@ -26,18 +26,26 @@ class Category implements Serializable {
 	BigDecimal maxWeight
 	static belongsTo = [championship:Championship]
 	
-	//TODO validate pesos maximo y minimo
+	// internacionalizar categorias con plugin i18n?
     static constraints = {
 		name(blank:false, nullable:false, 
 			inList:["Cadete Sub-17", "Infantil Sub-15", "Alevin Sub-13", "Benjamín", "Benjamín B"])
 		sex(blank:false, nullable:false, inList:["Masculino", "Femenino"])
 		bornAgo(blank:false, nullable:false)
-		minWeight(validator:{ val, obj ->
-				(((val == null) && obj.maxWeight != null) || (obj.minWeight <= obj.maxWeight))
-		})
-		maxWeight(validator:{ val, obj ->
-				(((val == null && obj.minWeight != null)) || (obj.maxWeight > obj.minWeight))
-		})
+		minWeight(blank:true, nullable:true, validator:{ val, obj ->
+				if (val != null) {
+					(obj.maxWeight == null) || (val <= obj.maxWeight)
+				} else {
+					(obj.maxWeight != null)
+				}
+			})
+		maxWeight(blank:true, nullable:true, validator:{ val, obj ->
+				if (val != null) {
+					(obj.minWeight == null) || (val >= obj.minWeight)
+				} else {
+					(obj.minWeight != null)
+				}
+			})
 		championship(blank:false, nullable:false, readonly:true, 
 			validator:{ val, obj ->
 				if (obj.id == null) {

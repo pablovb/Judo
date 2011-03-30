@@ -21,6 +21,8 @@ class Championship implements Serializable {
 	Date date
 	Boolean open
 	static hasMany = [categories:Category, registrations:Registration]
+	
+	static optionals = ["categories", "registrations"]
 
     static constraints = {
 		name(blank:false, nullable:false, unique:'date')
@@ -30,10 +32,7 @@ class Championship implements Serializable {
 		open(blank:false, nullable:false, default:false, validator:{ val, obj ->
 				(!val) || (new Date()?.before(obj.date))
 			})
-		// puede haber campeonato sin categorias creadas
-		categories(validator:{ val, obj ->
-				!(obj.categories?.contains(val))
-			})
+		categories()
 		registrations()
     }
 	
