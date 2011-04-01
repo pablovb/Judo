@@ -17,7 +17,9 @@ class User implements Serializable {
 	}
 
 	static mapping = {
+		tablePerHierarchy false
 		password column: '`password`'
+		sort "username"
 	}
 
 	Set<Role> getAuthorities() {

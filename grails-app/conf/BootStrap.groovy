@@ -1,5 +1,8 @@
-import es.liceo.judo.category.Category;
-import es.liceo.judo.championship.Championship;
+import es.liceo.judo.category.Category
+import es.liceo.judo.championship.Championship
+import es.liceo.judo.club.Club
+import es.liceo.judo.judoka.Judoka
+import es.liceo.judo.judoka.JudokaHistoricalClub
 import es.liceo.judo.security.Role
 import es.liceo.judo.security.User
 import es.liceo.judo.security.UserRole
@@ -27,7 +30,7 @@ class BootStrap {
 	def createUsersAndRoles = {
 
 		if (log.isDebugEnabled()) {
-			log.debug("Creando usuarios y roles...");
+			log.debug("Creando usuarios y roles...")
 		}
 
 		// roles
@@ -59,10 +62,12 @@ class BootStrap {
 		}
 
 		// club user
-		def clubUser = User.findByUsername('club') ?: new User(
-				username: 'club',
-				password: springSecurityService.encodePassword('club'),
-				enabled: true).save(failOnError: true, flush: true)
+		def clubUser = User.findByUsername('liceo') ?: new Club(
+				username: 'liceo',
+				password: springSecurityService.encodePassword('liceo'),
+				enabled: true,
+				name: 'Colegio Liceo',
+				location: 'A Coruña').save(failOnError: true, flush: true)
 
 		if (!clubUser.authorities.contains(clubRole)) {
 			UserRole.create(clubUser, clubRole)
@@ -73,7 +78,7 @@ class BootStrap {
 	def createChampionships = {
 
 		if (log.isDebugEnabled()) {
-			log.debug("Creando campeonatos y categorías...");
+			log.debug("Creando campeonatos y categorías...")
 		}
 
 		def trofeoLiceo = Championship.findByNameAndDate('Trofeo Liceo', new Date('2011/05/21')) ?:
@@ -89,24 +94,39 @@ class BootStrap {
 				minWeight: 78,
 				maxWeight: 80.5)
 
-		if (!(trofeoLiceo.categories?.contains(cadeteMasc))) {
-			trofeoLiceo.addToCategories(cadeteMasc)
+		if (!(trofeoLiceo.category?.contains(cadeteMasc))) {
+			trofeoLiceo.addToCategory(cadeteMasc)
 		}
 		println "Categorías de " + trofeoLiceo.name + ":"
-		trofeoLiceo.categories?.each {
+		trofeoLiceo.category?.each {
 			println "\t" + it.toString()
 		}
 
-		trofeoLiceo.save(failOnError: true, flush: true);
+		trofeoLiceo.save(failOnError: true, flush: true)
 
 	}
 
 	def createRegistrations = {
 
 		if (log.isDebugEnabled()) {
-			log.debug("Creando judokas e inscripciones...");
+			log.debug("Creando judokas e inscripciones...")
 		}
-
+		
+		def judoka = Judoka.findByDni("32839629E") ?: new Judoka(
+			dni: '32839629E',
+			name: 'Pablo',
+			surname: 'Vázquez Blázquez',
+			sex: 'Hombre',
+			bornDate: new Date('1983/09/01'))
+		
+		def judokaHist = new JudokaHistoricalClub(
+			judoka: judoka,
+			club: Club.findByUsername('liceo'),
+			histVersion: 1)
+		
+		judoka.addToClub(judokaHist)
+		
+		judoka.save(failOnError: true, flush: true)
 	}
 
 }

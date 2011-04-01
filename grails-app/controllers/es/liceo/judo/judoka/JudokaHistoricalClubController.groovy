@@ -1,6 +1,6 @@
 package es.liceo.judo.judoka
 
-class JudokaHistoricalController {
+class JudokaHistoricalClubController {
 
     static scaffold = true
 	

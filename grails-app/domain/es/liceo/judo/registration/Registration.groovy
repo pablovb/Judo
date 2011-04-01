@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import es.liceo.judo.championship.Championship;
-import es.liceo.judo.judoka.JudokaHistorical;
+import es.liceo.judo.judoka.JudokaHistoricalClub;
 
 /**
 * Clase con información sobre la inscripción de un judoka
@@ -21,7 +21,7 @@ class Registration implements Serializable {
 	Boolean licenseUpdated
 	Date dateCreated
 	Date lastUpdated
-	static belongsTo = [judoka:JudokaHistorical, championship:Championship]
+	static belongsTo = [judoka:JudokaHistoricalClub, championship:Championship]
 
     static constraints = {
 		championship(blank:false, nullable: false)

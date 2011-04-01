@@ -88,10 +88,11 @@ class Category implements Serializable {
 			return false
 		}
 		
-		other.name == name && other.sex == sex &&
-			other.bornAgo == bornAgo && 
-			other.minWeight == minWeight &&
-			other.maxWeight == maxWeight
+		other.name == name && 
+		other.sex == sex &&
+		other.bornAgo == bornAgo && 
+		other.minWeight == minWeight &&
+		other.maxWeight == maxWeight
 	}
 
 	int hashCode() {

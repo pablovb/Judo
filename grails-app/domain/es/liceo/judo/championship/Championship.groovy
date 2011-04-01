@@ -20,9 +20,7 @@ class Championship implements Serializable {
 	String name
 	Date date
 	Boolean open
-	static hasMany = [categories:Category, registrations:Registration]
-	
-	static optionals = ["categories", "registrations"]
+	static hasMany = [category:Category, registration:Registration]
 
     static constraints = {
 		name(blank:false, nullable:false, unique:'date')
@@ -32,8 +30,8 @@ class Championship implements Serializable {
 		open(blank:false, nullable:false, default:false, validator:{ val, obj ->
 				(!val) || (new Date()?.before(obj.date))
 			})
-		categories()
-		registrations()
+		category()
+		registration()
     }
 	
 	static mapping = {

@@ -1,7 +1,9 @@
 package es.liceo.judo.judoka
 
+import es.liceo.judo.club.Club
 import java.io.Serializable;
 import java.util.Date;
+import org.apache.commons.lang.builder.HashCodeBuilder
 
 /**
  * Clase con información sobre un judoka.
@@ -21,14 +23,15 @@ class Judoka implements Serializable {
 	Date bornDate
 	Date dateCreated
 	Date lastUpdated
-	static hasOne = [historial:JudokaHistorical]
+	static hasMany = [club:JudokaHistoricalClub]
 
     static constraints = {
-		dni(blank:false, nullable:false, unique:true)
+		dni(blank:false, nullable:false, unique:true, maxSize:9)
 		name(blank:false, nullable:false)
 		surname(blank:false, nullable:false)
 		bornDate(blank:false, nullable:false)
-		sex(inList:["Hombre", "Mujer"])
+		sex(blank:false, nullable:false, inList:["Hombre", "Mujer"])
+		club(blank:false, nullable:false)
 		dateCreated()
 		lastUpdated()
     }
@@ -38,7 +41,34 @@ class Judoka implements Serializable {
 	}
 	
 	String toString() {
-		return surname + ", " + name
+		return surname + ", " + name + " (" + dni + ")"
 	}
+	
+	boolean equals(other) {
+		if (!(other instanceof Judoka)) {
+			return false
+		}
+		
+		other.dni == dni &&
+		other.name == name &&
+		other.surname == surname &&
+		other.sex == sex &&
+		other.bornDate == bornDate
+	}
+
+	int hashCode() {
+		def builder = new HashCodeBuilder()
+		builder.append(dni)
+		builder.append(name)
+		builder.append(surname)
+		builder.append(sex)
+		builder.append(bornDate)
+		builder.toHashCode()
+	}
+	
+	/*Club getActualClub() {
+		JudokaHistoricalClub.findByJudokaAndHistVersion(this, 
+			JudokaHistoricalClub.getActualHistVersion(this))
+	}*/
 	
 }
