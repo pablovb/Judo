@@ -37,7 +37,7 @@ class Registration implements Serializable {
 	
 	String toString() {
 		return championship.toString() + 
-			" | " + judoka.toString() + 
+			" | " + judoka.judoka.toString() + 
 			" | " + weight + " Kg"
 	}
 }

@@ -66,9 +66,9 @@ class Judoka implements Serializable {
 		builder.toHashCode()
 	}
 	
-	/*Club getActualClub() {
+	Club retrieveActualClub() {
 		JudokaHistoricalClub.findByJudokaAndHistVersion(this, 
-			JudokaHistoricalClub.getActualHistVersion(this))
-	}*/
+			JudokaHistoricalClub.retrieveJudokaActualVersion(this)).club
+	}
 	
 }

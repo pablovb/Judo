@@ -4,6 +4,7 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.HashCodeBuilder
 
 import es.liceo.judo.championship.Championship;
+import es.liceo.judo.participation.Participation;
 
 /**
  * Clase con información sobre una categoría de un campeonato de judo.
@@ -25,6 +26,7 @@ class Category implements Serializable {
 	BigDecimal minWeight
 	BigDecimal maxWeight
 	static belongsTo = [championship:Championship]
+	static hasMany = [participation:Participation]
 	
 	// internacionalizar categorias con plugin i18n?
     static constraints = {
@@ -53,7 +55,7 @@ class Category implements Serializable {
 					 * si se crea, que el campeonato donde se mete
 					 * no tenga esa misma categoria
 					 */
-					!(obj.championship?.categories?.contains(obj))
+					!(obj.championship?.category?.contains(obj))
 				} else {
 					/*
 					 * si se actualiza, que el campeonato no tenga
@@ -61,7 +63,7 @@ class Category implements Serializable {
 					 */
 					boolean found = false;
 					boolean sameId = false;
-					obj.championship?.categories?.each {
+					obj.championship?.category?.each {
 						if (it.equals(obj)) {
 							found = true;
 							if (it.id == obj.id) {
@@ -72,6 +74,7 @@ class Category implements Serializable {
 					return !found || sameId;
 				}
 			})
+		participation(blank:true, nullable:true)
     }
 	
 	static mapping = {

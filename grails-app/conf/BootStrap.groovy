@@ -127,6 +127,9 @@ class BootStrap {
 		judoka.addToClub(judokaHist)
 		
 		judoka.save(failOnError: true, flush: true)
+		
+		Club actualClub = judoka.retrieveActualClub()
+		
 	}
 
 }

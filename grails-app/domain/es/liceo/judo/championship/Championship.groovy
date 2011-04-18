@@ -1,6 +1,7 @@
 package es.liceo.judo.championship
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat
 
 import es.liceo.judo.category.Category;
 import es.liceo.judo.registration.Registration;
@@ -30,8 +31,8 @@ class Championship implements Serializable {
 		open(blank:false, nullable:false, default:false, validator:{ val, obj ->
 				(!val) || (new Date()?.before(obj.date))
 			})
-		category()
-		registration()
+		category(blank:true, nullable:true, unique:true)
+		registration(blank:true, nullable:true, unique:true)
     }
 	
 	static mapping = {
@@ -40,7 +41,8 @@ class Championship implements Serializable {
 	}
 	
 	String toString() {
-		return name + " - " + date.format("dd/MM/yyyy")
+		def formatter = new SimpleDateFormat("dd/MM/yyyy")
+		return name + " - " + formatter.format(date)
 	}
 	
 }

@@ -18,7 +18,7 @@ class Club extends User {
     static constraints = {
 		name(blank:false, nullable:false, unique:"location")
 		location(blank:false, nullable:false)
-		judoka()
+		judoka(unique:true)
     }
 	
 	String toString() {
